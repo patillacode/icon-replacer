@@ -1,5 +1,3 @@
 .aider*
 error_log.txt
-icons/*
-!icons/.gitkeep
 ```

@@ -34,7 +34,7 @@ Options:
  -h, --help                  Show this help message and exit.
  -v, --version               Show the version and exit.
  -i, --icons-folder <path>   Path to the icons folder.
-                             Default: /Users/dvitto/projects/icon-replacer/icons
+                             Default: <wherever this sript is/icons>
  -f, --force-reset           Force dock and finder to restart after replacing the icons.
  -s, --slow                  Run in slow mode.
                              It will ask the user for input after each icon is replaced.
@@ -48,6 +48,8 @@ The icons **MUST** be named the same way your applications are, i.e.
 if you want to change the icon from the application "Google Chrome.app" the icon in the icons folder must be also named "Google Chrome.icns"
 
 Also, I set the script to only support `.icns` files since `.jpg` and `.png` have given me problems some times.
+
+You can take a look in the `icons` folder where I have a few icons for the apps I use, you can replace them and add as many as you need.
 
 ## Options
 
