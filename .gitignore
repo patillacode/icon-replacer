@@ -1,3 +1,5 @@
 .aider*
 error_log.txt
-icons/
+icons/*
+!icons/.gitkeep
+```
