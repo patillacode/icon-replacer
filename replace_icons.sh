@@ -57,6 +57,7 @@ while (( "$#" )); do
       force_reset=1
       ;;
     -s|--slow)
+      echo
       echo -e "${YELLOW}Running in slow mode${NOCOLOR}"
       slowly=1
       ;;
@@ -97,51 +98,51 @@ echo "Please wait ... (depending on the number of icons, this may take a while)"
 
 # Iterate through each icon file in the icons directory
 for file in "$icons_dir"/*; do
-    filename=$(basename "${file%.*}")
-    extension="${file##*.}"
+  filename=$(basename "${file%.*}")
+  extension="${file##*.}"
 
-    full_custom_icon_path="$icons_dir/${filename}.${extension}"
+  full_custom_icon_path="$icons_dir/${filename}.${extension}"
 
-    app_path="/Applications/${filename}.app"
-    app_resources_path="$app_path/Contents/Resources"
+  app_path="/Applications/${filename}.app"
+  app_resources_path="$app_path/Contents/Resources"
 
-    # Check if the application resources directory exists
-    if [ -d "${app_resources_path}" ]; then
-        if [ $quiet -eq 0 ]; then
-            echo -e "${YELLOW}Setting custom icon for \"$filename\" ...${NOCOLOR}"
-        fi
-        output=$(fileicon set "$app_path" "$full_custom_icon_path" 2>&1)
-
-        # If an error occurs while setting the icon, log it in the error_log.txt file
-        if [ $? -ne 0 ]; then
-            if [ $quiet -eq 0 ]; then
-                echo -e "${RED}$output${NOCOLOR}"
-            fi
-            echo "$(date) $output" >> "$project_dir/error_log.txt"
-            total_errors=$((total_errors+1))
-        else
-            total_icons_changed=$((total_icons_changed+1))
-        fi
+  # Check if the application resources directory exists
+  if [ -d "${app_resources_path}" ]; then
+    if [ $quiet -eq 0 ]; then
+      echo -e "${YELLOW}Setting custom icon for \"$filename\" ...${NOCOLOR}"
     fi
+    command_output=$(fileicon set "$app_path" "$full_custom_icon_path" 2>&1)
 
-    # If running in slow mode, ask for user input before continuing to the next icon
-    if [ $slowly -eq 1 ]; then
-        read -p "Press [Enter] key to continue ..."
+    # If an error occurs while setting the icon, log it in the error_log.txt file
+    if [ $? -ne 0 ]; then
+      if [ $quiet -eq 0 ]; then
+          echo -e "${RED}$command_output${NOCOLOR}"
+      fi
+      echo "$(date) $command_output" >> "$project_dir/error_log.txt"
+      total_errors=$((total_errors+1))
+    else
+      total_icons_changed=$((total_icons_changed+1))
     fi
+  fi
+
+  # If running in slow mode, ask for user input before continuing to the next icon
+  if [ $slowly -eq 1 ]; then
+    read -p "Press [Enter] key to continue ..."
+  fi
 done
 
 # If force reset option is enabled, restart dock and finder
 if [ $force_reset -eq 1 ]; then
-    echo "Restarting dock and finder ..."
-    killall Dock
-    killall Finder
+  echo "Restarting dock and finder ..."
+  killall Dock
+  killall Finder
 fi
 
 # Display the total number of icons changed and any errors encountered
 echo -e "____________________________"
 echo -n -e "${YELLOW}Total icons changed: $total_icons_changed${NOCOLOR}"
 if [ $total_errors -eq 0 ]; then
-    echo -e "\033[32m (no errors)${NOCOLOR}"
+  echo -e "\033[32m (no errors)${NOCOLOR}"
 else
-    echo -e "\n${RED}Total errors: $total_errors (see error_log.txt)${NOCOLOR}\n"
+  echo -e "\n${RED}Total errors: $total_errors (see error_log.txt)${NOCOLOR}\n"
 fi
