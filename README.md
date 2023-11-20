@@ -33,13 +33,13 @@ Usage: ./replace_icons.sh [OPTIONS]
 Options:
  -h, --help                  Show this help message and exit.
  -v, --version               Show the version and exit.
+ -c, --command <path>        Path to the fileicon command
  -i, --icons-folder <path>   Path to the icons folder.
                              Default: <wherever this sript is/icons>
  -f, --force-reset           Force dock and finder to restart after replacing the icons.
  -s, --slow                  Run in slow mode.
                              It will ask the user for input after each icon is replaced.
  -q, --quiet                 Reduce the output to a minimum.
-
 ```
 
 **Important notes**
@@ -57,6 +57,7 @@ The script supports several options to customize its behavior:
 
 - `-h, --help`: Show the help message and exit.
 - `-v, --version`: Show the version and exit.
+- `-c, --command <path>`: Path to the fileicon command.
 - `-i, --icons-folder <path>`: Specify a custom path to the icons folder.
 - `-f, --force-reset`: Force dock and finder to restart after replacing the icons.
 - `-s, --slow`: Run in slow mode, asking for user input after each icon is replaced.

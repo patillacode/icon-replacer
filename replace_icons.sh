@@ -14,6 +14,7 @@ version='v0.0.1'
 slowly=0
 force_reset=0
 quiet=0
+command="fileicon"
 
 project_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 icons_dir="$project_dir/icons"
@@ -37,6 +38,7 @@ function print_help {
   echo -e "${CYAN}Options:${NOCOLOR}"
   echo -e "${YELLOW}${ITALIC} -h, --help${NOCOLOR}                  ${GREEN}Show this help message and exit.${NOCOLOR}"
   echo -e "${YELLOW}${ITALIC} -v, --version${NOCOLOR}               ${GREEN}Show the version and exit.${NOCOLOR}"
+  echo -e "${YELLOW}${ITALIC} -c, --command <path>${NOCOLOR}        ${GREEN}Path to the fileicon command.${NOCOLOR}"
   echo -e "${YELLOW}${ITALIC} -i, --icons-folder <path>${NOCOLOR}   ${GREEN}Path to the icons folder.${NOCOLOR}"
   echo -e "                             ${GREEN}Default: ${ITALIC}${WHITE}$project_dir/icons${NOCOLOR}"
   echo -e "${YELLOW}${ITALIC} -f, --force-reset${NOCOLOR}           ${GREEN}Force dock and finder to restart after replacing the icons.${NOCOLOR}"
@@ -75,6 +77,17 @@ while (( "$#" )); do
       fi
       icons_dir="$1"
       ;;
+    -c|--command)
+      shift
+      # check if the argument is provided
+      if [ $# -eq 0 ]; then
+        echo
+        echo -e "${RED}missing <path> argument for -c option${NOCOLOR}"
+        print_help $project_dir
+        exit 1
+      fi
+      command="$1"
+      ;;
     -h|--help)
       print_help $project_dir
       exit 0
@@ -111,7 +124,7 @@ for file in "$icons_dir"/*; do
     if [ $quiet -eq 0 ]; then
       echo -e "${YELLOW}Setting custom icon for \"$filename\" ...${NOCOLOR}"
     fi
-    command_output=$(fileicon set "$app_path" "$full_custom_icon_path" 2>&1)
+    command_output=$($command set "$app_path" "$full_custom_icon_path" 2>&1)
 
     # If an error occurs while setting the icon, log it in the error_log.txt file
     if [ $? -ne 0 ]; then
