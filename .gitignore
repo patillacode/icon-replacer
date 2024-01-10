@@ -2,4 +2,5 @@
 .vscode*
 error_log.txt
 cronlog.txt
+log.txt
 
