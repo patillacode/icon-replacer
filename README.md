@@ -19,7 +19,7 @@ Before you begin, ensure you have the following installed on your macOS:
 
 To install the Icon Replacer, simply clone this repository to your local machine:
 ```sh
-git clone https://github.com/patillacode/icon-replacer.git
+git clone https://forgejo.patilla.es/patillacode/icon-replacer.git
 cd icon-replacer
 ```
 
